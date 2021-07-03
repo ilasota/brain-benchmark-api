@@ -13,4 +13,7 @@ db.once("open", () => console.log("Databse Connected"));
 
 app.use(express.json());
 
-app.listen(3000, console.log("Server Started"));
+const usersRouter = require("./routes/users");
+app.use("/users", usersRouter);
+
+app.listen(5000, console.log("Server Started"));
