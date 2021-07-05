@@ -31,4 +31,37 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Getting one user
+router.get("/:id", getUser, (req, res) => {
+  try {
+    res.json(res.user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Getting user scores
+router.get("/:id/scores", getUser, (req, res) => {
+  try {
+    res.json(res.user.scores);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+async function getUser(req, res, next) {
+  let user;
+  try {
+    user = await User.findById(req.params.id);
+    if (user == null) {
+      return res.status(404).json({ message: "Cannot find user." });
+    }
+  } catch (err) {
+    return status(500).json({ message: err.message });
+  }
+
+  res.user = user;
+  next();
+}
+
 module.exports = router;
