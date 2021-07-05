@@ -49,6 +49,28 @@ router.get("/:id/scores", getUser, (req, res) => {
   }
 });
 
+// Update scores
+router.patch("/:id/scores", getUser, async (req, res) => {
+  if (req.body.numberScore != null) {
+    res.user.scores.numberScore = req.body.numberScore;
+  }
+  if (req.body.reactionScore != null) {
+    res.user.scores.reactionScore = req.body.reactionScore;
+  }
+  if (req.body.speedScore != null) {
+    res.user.scores.speedScore = req.body.speedScore;
+  }
+  if (req.body.chimpScore != null) {
+    res.user.scores.chimpScore = req.body.chimpScore;
+  }
+  try {
+    const updatedScore = await res.user.save();
+    res.json(updatedScore.scores);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 async function getUser(req, res, next) {
   let user;
   try {
