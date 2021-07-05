@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
 });
 
 // Creating User
-router.post("/", async (req, res) => {
+router.post("/", checkUser, async (req, res) => {
   const user = new User({
     _id: req.body.userName.replace(/ /g, ""),
     userName: req.body.userName,
@@ -61,6 +61,24 @@ async function getUser(req, res, next) {
   }
 
   res.user = user;
+  next();
+}
+
+async function checkUser(req, res, next) {
+  let userNameCheck, emailCheck;
+  try {
+    userNameCheck = await User.findOne({ userName: req.body.userName });
+    if (userNameCheck != null) {
+      return res.status(401).json({ taken: true, message: "Username already taken." });
+    }
+    emailCheck = await User.findOne({ "auth.email": req.body.email });
+    if (emailCheck != null) {
+      return res.status(402).json({ taken: true, message: "Email already used." });
+    }
+  } catch (err) {
+    return res.json({ message: err.message });
+  }
+
   next();
 }
 
