@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const bcrypt = require("bcrypt");
 
 // Getting All Users
 router.get("/", async (req, res) => {
@@ -18,7 +19,7 @@ router.post("/", checkUser, async (req, res) => {
     _id: req.body.userName.replace(/ /g, ""),
     userName: req.body.userName,
     auth: {
-      password: req.body.password,
+      password: await bcrypt.hash(req.body.password, 10),
       email: req.body.email,
     },
   });
@@ -31,10 +32,11 @@ router.post("/", checkUser, async (req, res) => {
   }
 });
 
-// Getting one user
-router.get("/:id", getUser, (req, res) => {
+// Checking user password
+router.get("/:id", getUser, async (req, res) => {
+  const loginSuccess = await bcrypt.compare(req.body.password, res.user.auth.password);
   try {
-    res.json(res.user);
+    res.json({ success: loginSuccess });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
