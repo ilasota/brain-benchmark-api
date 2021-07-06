@@ -1,0 +1,33 @@
+GET http://localhost:5000/users
+
+
+###
+
+POST http://localhost:5000/users 
+ Content-Type: application/json
+
+{
+    "userName": "test",
+    "email": "test",
+    "password": "test"
+}
+
+###
+
+GET http://localhost:5000/users/test
+ Content-Type: application/json
+
+{
+    "password": "password"
+}
+
+###
+GET http://localhost:5000/users/Yang160/scores
+
+###
+PATCH http://localhost:5000/users/Yang160/scores
+ Content-Type: application/json
+
+ {
+     "numberScore": []
+ }
