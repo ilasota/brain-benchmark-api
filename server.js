@@ -15,5 +15,6 @@ app.use(express.json());
 
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
+app.get("/", (req, res) => res.send("<h1>brain-benchmark-auth</h1>"));
 
 app.listen(process.env.PORT || 5000, console.log("Server Started"));

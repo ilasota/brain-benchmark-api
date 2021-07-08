@@ -7,25 +7,25 @@ POST http://localhost:5000/users
  Content-Type: application/json
 
 {
-    "userName": "test",
-    "email": "test",
-    "password": "test"
+    "userName": "Yang",
+    "email": "youngskullweq@op.pl",
+    "password": "siema1234"
 }
 
 ###
 
-GET http://localhost:5000/users/test
+GET http://localhost:5000/users/Yang
  Content-Type: application/json
 
 {
-    "password": "password"
+    "password": "siema1234"
 }
 
 ###
 GET http://localhost:5000/users/Yang160/scores
 
 ###
-PATCH http://localhost:5000/users/Yang160/scores
+PATCH http://localhost:5000
  Content-Type: application/json
 
  {
