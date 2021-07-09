@@ -23,7 +23,7 @@ router.post("/", checkUser, async (req, res) => {
 });
 
 // Checking user password
-router.get("/:id", getUser, async (req, res) => {
+router.post("/:id", getUser, async (req, res) => {
   const loginSuccess = await bcrypt.compare(req.body.password, res.user.auth.password);
   try {
     res.json({ success: loginSuccess });
