@@ -44,6 +44,11 @@ const userSchema = new mongoose.Schema(
         default: [],
       },
     },
+    followed: {
+      type: [String],
+      required: true,
+      default: [],
+    },
   },
   { _id: false }
 );
