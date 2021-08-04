@@ -63,6 +63,17 @@ router.patch("/:id/scores", getUser, async (req, res) => {
   }
 });
 
+// Adding user to followed
+router.patch("/:id/followed", getUser, async (req, res) => {
+  res.user.followed = [...res.user.followed, req.body.followed];
+  try {
+    const updatedFollowList = await res.user.save();
+    res.json(updatedFollowList);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 async function getUser(req, res, next) {
   let user;
   try {
