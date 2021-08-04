@@ -74,6 +74,15 @@ router.patch("/:id/followed", getUser, async (req, res) => {
   }
 });
 
+// Getting f0llowed list
+router.get("/:id/followed", getUser, (req, res) => {
+  try {
+    res.json(res.user.followed);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 async function getUser(req, res, next) {
   let user;
   try {
