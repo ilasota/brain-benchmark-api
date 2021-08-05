@@ -64,7 +64,7 @@ router.patch("/:id/scores", getUser, async (req, res) => {
 });
 
 // Adding user to followed
-router.patch("/:id/followed", getUser, async (req, res) => {
+router.patch("/:id/followed", checkFollow, async (req, res) => {
   res.user.followed = [...res.user.followed, req.body.followed];
   try {
     const updatedFollowList = await res.user.save();
@@ -74,7 +74,7 @@ router.patch("/:id/followed", getUser, async (req, res) => {
   }
 });
 
-// Getting f0llowed list
+// Getting followed list
 router.get("/:id/followed", getUser, (req, res) => {
   try {
     res.json(res.user.followed);
@@ -113,6 +113,21 @@ async function checkUser(req, res, next) {
     return res.json({ message: err.message });
   }
 
+  next();
+}
+
+async function checkFollow(req, res, next) {
+  let followNameCheck, user;
+  try {
+    user = await User.findById(req.params.id);
+    followNameCheck = await User.findOne({ userName: req.body.followed });
+    if (followNameCheck == null) {
+      return res.status(403).json({ status: 403, message: "Cannot find user" });
+    }
+  } catch (err) {
+    return res.json({ message: err.message });
+  }
+  res.user = user;
   next();
 }
 
