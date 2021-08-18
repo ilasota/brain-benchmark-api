@@ -127,6 +127,9 @@ async function checkFollow(req, res, next) {
     if (user.followed.find((element) => element === req.body.followed)) {
       return res.status(403).json({ status: 403, message: "User already followed." });
     }
+    if (req.params.id === req.body.followed) {
+      return res.status(403).json({ status: 403, message: "Can't follow yourself." });
+    }
   } catch (err) {
     return res.json({ message: err.message });
   }
